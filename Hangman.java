@@ -13,7 +13,6 @@
  */
 
 
-
 /*
 
  * The computer will choose a word (at random) and we have to guess the word by suggesting letters with a certain number of tries. 
@@ -27,7 +26,6 @@
 import java.util.Random;
 
 import java.util.Scanner;
-
 
 
 public class Hangman{
@@ -68,7 +66,7 @@ public class Hangman{
 
 		for (index = 0; index<word.length(); index++){ // Index is already initialized above in this constructor
 
-		sb.setCharAt(index,'_');
+			sb.setCharAt(index,'_');
 
 		}
 
@@ -87,7 +85,7 @@ public class Hangman{
 
 		}
 
-	System.out.println();
+		System.out.println();
 
 	}
 
@@ -107,78 +105,75 @@ public class Hangman{
 
 		}
 
+		// Ask for a guess from the user
 
-	// Ask for a guess from the user
+		char newAttempt;
 
+		System.out.println("Your chances: ->"+no_of_chances+"<-");
 
-	char newAttempt;
+		System.out.println("Enter the new attempt: ");
 
-	System.out.println("Your chances: ->"+no_of_chances+"<-");
-
-	System.out.println("Enter the new attempt: ");
-
-	newAttempt = sc.next().charAt(0); 
+		newAttempt = sc.next().charAt(0); 
 
 
-	// If the word does not contain the character input by the user, then decrement the number of chances left in the game.
+		// If the word does not contain the character input by the user, then decrement the number of chances left in the game.
 
-	if (word.indexOf(newAttempt)==-1){
+		if (word.indexOf(newAttempt)==-1){
 
-		no_of_chances-=1;
+			no_of_chances-=1;
 
-	}
+		}
 
-	// If the previously built underscore string already contains that character then skip
+		// If the previously built underscore string already contains that character then skip
 
-	else if(underscores.indexOf(newAttempt)!=-1){
+		else if(underscores.indexOf(newAttempt)!=-1){
 
-		display(underscores);
+			display(underscores);
 
-	}
+		}
 
-	else{
+		else{
 
-		// Take the previously built underscores string that contains all correct previous attempts.
+			// Take the previously built underscores string that contains all correct previous attempts.
 
-		StringBuilder sb = new StringBuilder(underscores);
+			StringBuilder sb = new StringBuilder(underscores);
 
-		// In that previously built underscores string, replace all places in the underscore string with input from the user where it occurs in our chosen word. 
+			// In that previously built underscores string, replace all places in the underscore string with input from the user where it occurs in our chosen word. 
 
-		for (int index = 0; index<word.length(); index++){
+			for (int index = 0; index<word.length(); index++){
 
-			if (word.charAt(index)==newAttempt){
+				if (word.charAt(index)==newAttempt){
 
-				// Replace the underscore with the input from the user
+					// Replace the underscore with the input from the user
 
-				sb.replace(index, index+1, String.valueOf(newAttempt));
+					sb.replace(index, index+1, String.valueOf(newAttempt));
+
+				}
+
+			}
+
+			underscores = sb.toString();
+
+			display(underscores);
+
+			// After filling up the underscores string, test if it has become equal to the chosen word
+
+			if (word.equals(underscores)){
+
+				System.out.println("You won!");
+
+				return;
 
 			}
 
 		}
 
-		underscores = sb.toString();
 
-		display(underscores);
+		// Call game recursively until the game terminates
 
-		// After filling up the underscores string, test if it has become equal to the chosen word
-
-		if (word.equals(underscores)){
-
-			System.out.println("You won!");
-
-			return;
+		game(sc);
 
 		}
-
-	}
-
-
-	// Call game recursively until the game terminates
-
-	game(sc);
-
-	}
-
 
 
 	public static void main(String args[]){
